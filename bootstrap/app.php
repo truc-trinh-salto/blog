@@ -43,6 +43,9 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureValidEmail::class,
             EnsureValidUsername::class,
         ]);
+
+        //CRSF's middleware
+        $middleware->validateCsrfTokens();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

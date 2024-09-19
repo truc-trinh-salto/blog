@@ -22,13 +22,14 @@
 
 
     <form method="POST" action="/category/create">
-        @csrf
+        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="mb-3">
             <label for="nameCategory" class="form-label">Category Name</label>
             <input type="text" class="form-control" id="nameCategory" name="name_category" value="{{ old('name_category') }}">
         </div>
 
-        <!-- <input type="text" name="_token" value="{{ csrf_token() }}" /> -->
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

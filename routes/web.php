@@ -20,6 +20,9 @@ use App\Models\Branch;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
+use App\Http\Middleware\EnsureValidUsername;
+use App\Http\Middleware\EnsureValidCategoryName;
+
 
 //route default
 Route::get('/welcome',[HomeController::class,'welcome']);
@@ -43,9 +46,10 @@ Route::get('/user/{name?}',function(?string $name = 'Alice'){
 });
 
 //Route Regular Expression Constraints
+//Middleware passing parameters
 Route::get('/book/{book:book_id}/info',function(Book $book){
     return $book;
-})->whereNumber('book_id');
+})->whereNumber('book_id')->middleware('bookEdit:edit');
 
 //Route named
 Route::get(
@@ -59,6 +63,7 @@ Route::get('/profile/users',function(){
 
 
 //Route middleware 
+//Middleware Excluding
 Route::middleware('subscribed')->group(function(){
     Route::get('/management/{role}/books',function(){
         return Book::all();
@@ -66,22 +71,24 @@ Route::middleware('subscribed')->group(function(){
 
     Route::get('/management/{role}/categories',function(){
         return Category::all();
-    });
+    })->withoutMiddleware('subscribed');
 });
 
 //Route controller and prefix
+
 Route::controller(CategoryController::class)->group(function (){
         Route::prefix('category')->group(function(){
             Route::get('/create', 'create');
-            Route::post('/create', 'store');
+            //Middleware assgining 
+            Route::post('/create', 'store')->middleware(EnsureValidCategoryName::class);
         });
 });
 
 //Route name prefixes
 Route::name('category.')->group(function(){
-    Route::prefix('category')->group(function(){
-        Route::get('/create', 'CategoryController@create')->name('create');
-        Route::post('/create', 'CategoryController@store')->name('store');
+    Route::prefix('category')->group(callback: function(){
+        Route::get('/create', [CategoryController::class,'create'])->name('create');
+        Route::post('/create', [CategoryController::class,'store'])->name('store');
     });
 });
 
@@ -113,8 +120,13 @@ Route::fallback(function(){
     return view('welcome');
 });
 
+//Middleware using group 
+Route::middleware('ensureUsernameEmail')->group( function(){
+    Route::post('/register', [AuthController::class,'register']);
+});
 
-Route::post('/register', [AuthController::class,'register']);
+
+
 
 
 Route::resource('branches', BranchController::class);

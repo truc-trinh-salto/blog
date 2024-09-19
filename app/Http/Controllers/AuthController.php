@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Http\RedirectResponse;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    //Controller Denpendency Injection
+    public function register(Request $request): RedirectResponse{
         // $validator = Validator::make($request->all(), [
         //     'name' => ['required', 'max:255','unique:users,name'],
         //     'phone_number' => ['nullable', 'max:11','unique:users,phone_number'],
@@ -37,7 +39,9 @@ class AuthController extends Controller
         return redirect('register');
     }
 
-    public function login(Request $request){
-        return view('welcome',['name' => $request->username]);
+    //Controller Denpendency Injection
+    public function login(Request $request): RedirectResponse{
+        $username = $request->username;
+        return redirect()->view('welcome',['name' => $username]);
     }
 }

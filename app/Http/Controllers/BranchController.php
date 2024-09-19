@@ -12,7 +12,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        return Branch::all();
     }
 
     /**
@@ -44,7 +44,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        return $branch;
     }
 
     /**
@@ -61,5 +61,9 @@ class BranchController extends Controller
     public function destroy(Branch $branch)
     {
         //
+    }
+
+    public function search(String $search){
+        return Branch::where('title', 'like', '%'.$search.'%')->get();
     }
 }

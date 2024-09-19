@@ -6,15 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use App\Http\Middleware\EnsureValidCategoryName;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
+
+    //Controller using middleware
+    public static function middleware():array{
+        return [new Middleware(EnsureValidCategoryName::class,only:['store'])];
+    }
+
+
     public function create(Request $request){
         var_dump($request->all());
 
         return view('category');
     }
 
+
+    //Controller Denpendency Injection
     public function store(Request $request){
 
         $validator = Validator::make($request->all(), [

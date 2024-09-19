@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookCommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
@@ -80,7 +82,7 @@ Route::controller(CategoryController::class)->group(function (){
         Route::prefix('category')->group(function(){
             Route::get('/create', 'create');
             //Middleware assgining 
-            Route::post('/create', 'store')->middleware(EnsureValidCategoryName::class);
+            Route::post('/create', 'store');
         });
 });
 
@@ -130,13 +132,35 @@ Route::post('/login', [AuthController::class,'login']);
 
 
 
+//Controller Additional Resources
+Route::get('/branches/search/{search}',[BranchController::class,'search']);
+
+//Controller Resource
+//Controller Handle Missing
+//Controller Names Resource Routes
+Route::resource('branches', BranchController::class)
+                ->names(['create' => 'save'])
+                ->missing(function(Request $request){
+                    return redirect()->route('branches.index');
+                });
+
+//Controller partial resource
+
+Route::resource('transactions', TransactionController::class)->only([
+                    'index', 'show'
+                ]);
+
+//Controller Nested Resource
+//Controller Scoping Resource Routes
+Route::resource('books.comments', BookCommentController::class)->scoped([
+    'comment' => 'text',
+]);
 
 
+//Controller Resource Singleton
+Route::singleton('profile', ProfileController::class);
 
 
-Route::resource('branches', BranchController::class);
-
-Route::resource('books.comments', BookCommentController::class);
 
 
 

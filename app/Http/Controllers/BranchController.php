@@ -12,7 +12,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        return Branch::all();
     }
 
     /**
@@ -42,9 +42,10 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    
     public function edit(Branch $branch)
     {
-        //
+        return $branch;
     }
 
     /**
@@ -61,5 +62,9 @@ class BranchController extends Controller
     public function destroy(Branch $branch)
     {
         //
+    }
+
+    public function search(String $search){
+        return Branch::where('title', 'like', '%'.$search.'%')->get();
     }
 }

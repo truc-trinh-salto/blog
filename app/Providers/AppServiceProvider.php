@@ -57,5 +57,11 @@ class AppServiceProvider extends ServiceProvider
             return Response::make(strtoupper($value));
         });
 
+
+        //Controller Localizing Resource URIs
+        Route::resourceVerbs([
+            'edit' => 'modifier'
+        ]);
+
     }
 }

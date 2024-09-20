@@ -20,9 +20,9 @@ class BookController extends Controller
             var_dump($branch->pivot->status);
         }
 
-
-        $cookie = cookie('name', 'value', 5);
-        
+        //Request retrieveing cookie
+        $cookie = $request->cookie('name');
+    
 
         return response()->view('home', ['book' => $book])->cookie($cookie);
     }

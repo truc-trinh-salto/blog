@@ -9,6 +9,7 @@ use App\Http\ViewComposers\BookComposer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\View\View;
 
 use App\Models\User;
 use App\Models\Branch;
@@ -50,8 +51,16 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        //Views composer
+        //View share key data
+        Facades\View::share('country', 'Viet Nam');
+
+        //Views composer class base
         Facades\View::composer('home',BookComposer::class);
+
+        //View composer colsure base with Multiple views
+        Facades\View::composer(['home','auth.login','welcome'], function (View $view) {
+            $view->with('district', 'District 7');
+        });
 
 
         //Response macro

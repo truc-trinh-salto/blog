@@ -27,6 +27,7 @@ class BookController extends Controller
         $cookie = cookie('name', 'value', 5);
     
         //Response attaching cookies
+        //View passing data to view
         return response()->view('home', ['book' => $book])->cookie($cookie);
     }
 }

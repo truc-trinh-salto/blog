@@ -19,6 +19,8 @@ class BookComposer
      */
     public function compose(View $view): void
     {
+
+        //View Composer
         $view->with('books', $this->books::all());
     }
 }

@@ -12,7 +12,9 @@
   <body>
     <div class="app">
         <div class="container">
-        
+        <div class="d-flex justify-content-center">
+            <h1 class="text-success">District : {{$district}}</h1>
+        </div>
         <div class="mt-4">
             <div class="row justify-content-center">
                 <form method="POST" action="/login">

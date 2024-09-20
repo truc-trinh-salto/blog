@@ -24,7 +24,8 @@
             echo $name;}
             else {
             echo 'GUEST';}
-            @endphp
+            @endphp - {{ $country}} - {{$district}}
+            <!-- Views share key data $country -->
             </h1>
         </div>
         <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">

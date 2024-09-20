@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\EnsurePostIdValid;
+use App\Http\Middleware\EnsureValidEmail;
+use App\Http\Middleware\EnsureValidUsername;
+use App\Http\Middleware\EnsureBookHasEdit;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -21,12 +24,28 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+
+        //Middleware Alisas
         $middleware->alias([
-            'subscribed' => EnsurePostIdValid::class
+            'subscribed' => EnsurePostIdValid::class,
+            'bookEdit' => EnsureBookHasEdit::class
         ]);
 
-        // $middleware->append(StartSession::class);
-        //
+
+        //Middleware Groups
+        $middleware->appendToGroup('ensureUsernameEmail',[
+            EnsureValidUsername::class,
+            EnsureValidEmail::class,
+        ]);
+
+        //Middleware Sorting
+        $middleware->priority([
+            EnsureValidEmail::class,
+            EnsureValidUsername::class,
+        ]);
+
+        //CRSF's middleware
+        $middleware->validateCsrfTokens();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

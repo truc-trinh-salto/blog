@@ -36,4 +36,8 @@ class AuthController extends Controller
 
         return redirect('register');
     }
+
+    public function login(Request $request){
+        return view('welcome',['name' => $request->username]);
+    }
 }

@@ -16,7 +16,7 @@ class EnsureValidEmail
     public function handle(Request $request, Closure $next): Response
     {
         $email = $request->input('email');
-        if(str_contains($email,'@')){
+        if(!str_contains($email,'@')){
             return response('Your email is valid');
         }
         return $next($request);

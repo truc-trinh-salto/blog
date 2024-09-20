@@ -7,41 +7,53 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\RedirectResponse;
+use App\Enums\UserRole;
 
 class AuthController extends Controller
 {
     //Controller Denpendency Injection
+    //Request Denpendency Injection
     public function register(Request $request): RedirectResponse{
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['required', 'max:255','unique:users,name'],
-        //     'phone_number' => ['nullable', 'max:11','unique:users,phone_number'],
-        //     'birthday' => ['nullable', 'date'],
-        //     'email' => ['required', 'email:rfc,dns','unique:users,email'],
-        //     'password' => ['required', 'confirmed', Password::min(8)->mixedCase()],
-        //     'password_confirmation' => 'required|min:8|same:password',
-        // ]);
+        //Request inspect path and retrieve method
 
-        // if ($validator->fails()) {
-        //     // dd($request->input());
-        //     return redirect('register')
-        //                 ->withErrors($validator)
-        //                 ->withInput();
-        // }
+        //Request input 
+        $input = $request->all();
+        if($request->is('register') &&  $request->isMethod('post')){
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'fullname' => $request->fullname,
-        //     'phone_number' => $request->phone_number,
-        //     'birthday' => $request->birthday,
-        //     'email' => $request->email,
-        //     'password' => bcrypt($request->password)]);
+
+            //Request Input Presence
+            if(!$request->has(['name','email','password'])){
+
+                return redirect('register')
+                            ->withErrors(['name'=>'Name and Email are required',
+                                                    'password'=>'Password and Confirm Password are required'])
+                            ->withInput(); //Request Flashing Input Then Redirecting
+            }
+
+            $birthday = $request->date('birthday');
+
+            //Request Merging Additional
+            $request->merge(['role'=>'user']);
+
+
+            //Request enum  validation
+            $status = $request->enum('role', UserRole::class);
+
+        }
 
         return redirect('register');
     }
 
     //Controller Denpendency Injection
     public function login(Request $request): RedirectResponse{
-        $username = $request->username;
+        //Request Content Negotiation
+        if ($request->accepts(['text/html', 'application/json'])) {
+            return redirect('login');
+        }
+
+        //Request retrieving portion of input
+        $username = $request->only(['username']);
+
         return redirect()->view('welcome',['name' => $username]);
     }
 }

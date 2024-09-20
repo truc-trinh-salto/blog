@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Middleware\EnsureValidCategoryName;
+use App\Models\Category;
 
 class CategoryController extends Controller implements HasMiddleware
 {
@@ -18,9 +19,9 @@ class CategoryController extends Controller implements HasMiddleware
         return [new Middleware(EnsureValidCategoryName::class,only:['store'])];
     }
 
-
+    //Request Denpendency Injection
     public function create(Request $request){
-        var_dump($request->all());
+        // var_dump($request->all());
 
         return view('category');
     }
@@ -28,19 +29,36 @@ class CategoryController extends Controller implements HasMiddleware
 
     //Controller Denpendency Injection
     public function store(Request $request){
+        //Request retrieveing input
+        $name = $request->input('name_category','Science');
 
-        $validator = Validator::make($request->all(), [
-            'name_category' => 'required|unique:categories|max:255',
-        ]);
+        //Request stringable intput
+        $name = $request->string('name')->trim();
 
-        // dd($request->all());
-        
-        if ($validator->fails()) {
-            // dd($request->input());
-            return redirect('category/create')
-                        ->withErrors($validator)
-                        ->withInput();
+        //Request uploads File
+        if ($request->file('myfile')->isValid()) {
+            $file = $request->file('myfile');
+
+
+            //Create images/uploads/img.jpg in storage/app/
+            $path = $request->myfile->store('images/uploads');
+
+            echo $path;
         }
+
+
+        //Request input persence
+        $request->whenHas('name', function (string $input) {
+            $category = Category::where('name_category',$input)->get();
+            if($category){
+                return redirect('category/create')
+                        ->withErrors(['name_category' => 'Category name already exists'])
+                        ->withInput();
+            }
+        }, function(){
+            return redirect('category/create')
+                        ->withInput();
+        });
         
         // return redirect('/');
     }

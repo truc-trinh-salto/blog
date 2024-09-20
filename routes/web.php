@@ -38,14 +38,16 @@ Route::get('/register', function(){
 });
 
 //Route required parameters
-Route::get('/user/{name}',function(string $name){
+//Request query parameters /user?name=
+Route::get('/user',function(Request $request){
+    $name = $request->query('name');
     return 'This is user : '.$name;
 });
 
 //Route optional parameters
-Route::get('/user/{name?}',function(?string $name = 'Alice'){
-    return 'This is user : '.$name;
-});
+// Route::get('/user/{name?}',function(?string $name = 'Alice'){
+//     return 'This is user : '.$name;
+// });
 
 //Route Regular Expression Constraints
 //Middleware passing parameters

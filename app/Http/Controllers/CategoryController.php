@@ -51,15 +51,14 @@ class CategoryController extends Controller implements HasMiddleware
         $request->whenHas('name', function (string $input) {
             $category = Category::where('name_category',$input)->get();
             if($category){
-                return redirect('category/create')
+                return back()
                         ->withErrors(['name_category' => 'Category name already exists'])
-                        ->withInput();
+                        ->withInput();//Response redirect back
             }
         }, function(){
-            return redirect('category/create')
-                        ->withInput();
+            return view('category');
         });
-        
-        // return redirect('/');
+
+        return view('category');        
     }
 }

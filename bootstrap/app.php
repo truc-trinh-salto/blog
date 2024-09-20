@@ -46,6 +46,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //CRSF's middleware
         $middleware->validateCsrfTokens();
+
+        //Cookies encryption
+        $middleware->encryptCookies(except: [
+            'cookie_name',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -41,7 +41,10 @@ Route::get('/register', function(){
 //Request query parameters /user?name=
 Route::get('/user',function(Request $request){
     $name = $request->query('name');
-    return 'This is user : '.$name;
+
+    // return 'This is user : '.$name;
+    //Response using macro name 'caps'
+    return response()->caps($name);
 });
 
 //Route optional parameters
@@ -51,6 +54,7 @@ Route::get('/user',function(Request $request){
 
 //Route Regular Expression Constraints
 //Middleware passing parameters
+//Reponse Models and Collections
 Route::get('/book/{book:book_id}/info',function(Book $book){
     return $book;
 })->whereNumber('book_id')->middleware('bookEdit:edit');
@@ -61,9 +65,23 @@ Route::get(
     [UserController::class, 'show']
 )->name('profileAll');
 
+//Route named
+Route::get(
+    '/users/profile/{user}',
+    [UserController::class, 'edit']
+)->name('profileUser');
+
+Route::get('/profile/users/{user}',function(User $user){
+    //Response populating models eloquent
+    return redirect()->route('profileUser',[$user]);
+});
+
 Route::get('/profile/users',function(){
+
+    //Response Redirect name routes
     return redirect()->route('profileAll');
 });
+
 
 
 //Route middleware 
@@ -116,6 +134,8 @@ Route::get('users/{user}/orders/{order:id}', function (User $user, Order $order)
 Route::get('/users/{user}', function (User $user) {
     return $user->id;
 })->missing(function(){
+
+    //Response Redirects
     return redirect('/welcome');
 }); 
 
@@ -128,6 +148,7 @@ Route::fallback(function(){
 Route::middleware('ensureUsernameEmail')->group( function(){
     Route::post('/register', [AuthController::class,'register']);
 });
+
 
 Route::post('/login', [AuthController::class,'login']);
 

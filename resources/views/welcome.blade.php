@@ -18,7 +18,14 @@
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 
         <div class="py-16 text-center text-sm text-black dark:text-white/70">
-            <h1>Welcome: {{$name}}</h1>
+            <h1>Welcome: 
+            @php
+            if(isset($name)){
+            echo $name;}
+            else {
+            echo 'GUEST';}
+            @endphp
+            </h1>
         </div>
         <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
             <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" />

@@ -45,7 +45,8 @@ class BranchController extends Controller
     
     public function edit(Branch $branch)
     {
-        return $branch;
+        //Response with JSON
+        return response()->json($branch);
     }
 
     /**

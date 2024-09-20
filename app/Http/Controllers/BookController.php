@@ -22,8 +22,11 @@ class BookController extends Controller
 
         //Request retrieveing cookie
         $cookie = $request->cookie('name');
-    
 
+        //Define cookies
+        $cookie = cookie('name', 'value', 5);
+    
+        //Response attaching cookies
         return response()->view('home', ['book' => $book])->cookie($cookie);
     }
 }

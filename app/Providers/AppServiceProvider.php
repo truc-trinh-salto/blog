@@ -53,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         //Views composer
         Facades\View::composer('home',BookComposer::class);
 
+
+        //Response macro
         Response::macro('caps', function (string $value) {
             return Response::make(strtoupper($value));
         });

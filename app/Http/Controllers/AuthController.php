@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\RedirectResponse;
 use App\Enums\UserRole;
+use App\Http\Controllers\HomeController;
 
 class AuthController extends Controller
 {
@@ -27,7 +28,8 @@ class AuthController extends Controller
                 return redirect('register')
                             ->withErrors(['name'=>'Name and Email are required',
                                                     'password'=>'Password and Confirm Password are required'])
-                            ->withInput(); //Request Flashing Input Then Redirecting
+                            ->withInput() //Request Flashing Input Then Redirecting
+                            ->with('status','Registered failed!'); // Response redirect with flash data
             }
 
             $birthday = $request->date('birthday');
@@ -45,15 +47,17 @@ class AuthController extends Controller
     }
 
     //Controller Denpendency Injection
-    public function login(Request $request): RedirectResponse{
+    public function login(Request $request){
         //Request Content Negotiation
-        if ($request->accepts(['text/html', 'application/json'])) {
-            return redirect('login');
+        if (!$request->accepts(['text/html'])) {
+            //Response redirect to controller action
+            return redirect()->action([HomeController::class,'welcome']);
         }
 
         //Request retrieving portion of input
         $username = $request->only(['username']);
 
-        return redirect()->view('welcome',['name' => $username]);
+        //Response return view with data
+        return response()->view('welcome',['name' => $username['username']]);
     }
 }

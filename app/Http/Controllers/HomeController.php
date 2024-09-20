@@ -38,7 +38,14 @@ class HomeController extends Controller
         foreach($posts as $post){
             echo $post->title;
         }
-        return response('Hello World')->cookie('name','value',$minutes=1);
+        //Response attaching headers
+        return response('Hello World')
+                        ->cookie('name','value',$minutes=1)
+                        ->withHeaders([
+                            'Content-Type' => 'text/plain',
+                            'X-Header-One' => 'Header Value',
+                            'X-Header-Two' => 'Header Value',
+                        ]);;
     }
 
     public function delete($postId){

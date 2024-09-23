@@ -5,6 +5,7 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,13 +23,19 @@ class HomeController extends Controller
         echo $name;
         echo $action;
         
-        return view('auth.login');
+        return View::first(['auth.logindas', 'welcome']);
     }
 
     public function home(){
         // var_dump($categories);
         $categories = Category::where('category_id',1)->cursorPaginate(1);
         
+        //View exists
+        if(!view()->exists('user.home')){
+            return view('auth.login');
+        }
+
+        //View nested directories
         return view('user.home',['categories' => $categories]);
     }
     public function getAll(Request $request)
@@ -38,7 +45,14 @@ class HomeController extends Controller
         foreach($posts as $post){
             echo $post->title;
         }
-        return response('Hello World')->cookie('name','value',$minutes=1);
+        //Response attaching headers
+        return response('Hello World')
+                        ->cookie('name','value',$minutes=1)
+                        ->withHeaders([
+                            'Content-Type' => 'text/plain',
+                            'X-Header-One' => 'Header Value',
+                            'X-Header-Two' => 'Header Value',
+                        ]);;
     }
 
     public function delete($postId){

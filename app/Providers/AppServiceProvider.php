@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+use App\View\Components\CardBook;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades;
 use App\Http\ViewComposers\BookComposer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\View\View;
+use App\View\Components\Alert;
 
 use App\Models\User;
 use App\Models\Branch;
@@ -50,12 +54,32 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        //Views composer
-        Facades\View::composer('home',BookComposer::class);
+        //View share key data
+        Facades\View::share('country', 'Viet Nam');
 
+        //Views composer class base
+        Facades\View::composer(['home','user.home','auth.login','user.test'],BookComposer::class);
+
+        //View composer colsure base with Multiple views
+        Facades\View::composer(['home','auth.login','welcome'], function (View $view) {
+            $view->with('district', 'District 7');
+        });
+
+
+        //Response macro
         Response::macro('caps', function (string $value) {
             return Response::make(strtoupper($value));
         });
+
+
+        //Controller Localizing Resource URIs
+        Route::resourceVerbs([
+            'edit' => 'modifier'
+        ]);
+
+        //Blade template registering package components
+        Blade::component('package-alert', Alert::class);
+        Blade::component('card-book', CardBook::class);
 
     }
 }

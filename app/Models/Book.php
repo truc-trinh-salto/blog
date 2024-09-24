@@ -24,7 +24,7 @@ class Book extends Model
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class,'book_id','book_id');
     }
 
     public function category(): BelongsTo

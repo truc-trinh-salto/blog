@@ -26,8 +26,12 @@ use App\Http\Middleware\EnsureValidUsername;
 use App\Http\Middleware\EnsureValidCategoryName;
 
 
-//route default
+//Route default
 Route::get('/welcome',[HomeController::class,'welcome']);
+
+
+Route::get('/home',[HomeController::class,'home']);
+
 
 //Route redirect
 Route::redirect('/','/welcome',301);
@@ -45,6 +49,10 @@ Route::get('/user',function(Request $request){
     // return 'This is user : '.$name;
     //Response using macro name 'caps'
     return response()->caps($name);
+});
+
+Route::get('test',function (){
+    return view('test');
 });
 
 //Route optional parameters

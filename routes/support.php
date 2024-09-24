@@ -1,6 +1,8 @@
 <?php 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 Route::get('/hello',function(){
     return 'Hello World!';
@@ -18,6 +20,10 @@ Route::Get('/download/display',function(){
 
 Route::Get('/download',function(){
     $file= public_path(). "/download/test.pdf";
+
+    $contents = Storage::get('images/filename.jpg');
+
+    echo $contents;
 
     $headers = array(
               'Content-Type: application/pdf',

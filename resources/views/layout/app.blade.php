@@ -1,31 +1,3 @@
-@php
-    session_start();
-
-    // if (isset($_GET['lang']) && !empty($_GET['lang'])) {
-    //     $_SESSION['lang'] = $_GET['lang'];
-    //     if (isset($_SESSION['lang']) && $_SESSION['lang'] != $_GET['lang']) {
-    //         echo "<script type='text/javascript'> location.reload(); </script>";
-    //     }
-    // }
-
-    // if (isset($_SESSION['lang'])) {
-    //     include "public/language/" . $_SESSION['lang'] . ".php";
-    // } else {
-    //     $_SESSION['lang'] = 'en';
-    //     include "public/language/en.php";
-    // }
-
-    // $category_last;
-
-    $type = 'success';
-    $message = 'The successful Alert';
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = array();
-        $_SESSION['qty_array'] = array();
-    }
-
-@endphp
-
 <!DOCTYPE html>
 <html>
    <head>
@@ -45,6 +17,8 @@
 <body>
     <div class="app">
 
+            
+
 
         <!-- Blade template including subview -->
         @include('user.partials.header')
@@ -56,50 +30,13 @@
         <x-package-alert :$type :$message class="d-flex justify-content-center" name="alert-home"/>
         <!-- Blade template using component -->
 
+
+        
+        <!-- Blade template building layout -->
         <div class="container">
-            <script>
-                function changeLang(){
-                document.getElementById('form_lang').submit();
-                }
-            </script>
-            <div class="mt-4" id="categoryList">
-    
-            <div class="books-show">
-
-            
-            @foreach ($categories as $category)
-                <div style="height:50px; width:50px;"></div>
-                <h3>{{$category->name_category}}</h3>
-
-                <div class="row mt-4">
-
-                    <!-- Blade using loop -->
-                    @foreach($category->books as $book) 
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card card-course-item">
-                                <a href="">
-                                    <img class="card-img-top" width="150" height="200" src="{{ $book['address']? '../'.$book['address']:'https://tse4.mm.bing.net/th?id=OIP.ZiwfBrifIO4lV_Q-gIC7VQHaKx&pid=Api&P=0&h=180' }}" alt="">
-                                </a>
-                                
-                            <x-card-book :$book>
-                                <x-slot:title text="text-success">
-                                    {{ $book['title'] }}
-                                </x-slot>
-
-                            </x-card-book>
-                        </div>
-                    </div>
-
-                    @endforeach
-                </div>
-                @endforeach
-                <div class="load-more" lastID="1" style="display: none;">
-                        <span>Loading...</span>
-                </div>
-            </div>
-                
-            </div>
+            @yield('content')
         </div>
+        <!-- Blade template building layout -->
     </div>
     
 </body>

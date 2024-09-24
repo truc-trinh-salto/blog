@@ -1,3 +1,9 @@
+@php
+    session_start();
+    $type = 'info';
+    $message = 'text';
+@endphp
+
 <DOCTYPE html>
 <html>
    <head>
@@ -11,6 +17,20 @@
   </head>
   <body>
     <div class="app">
+        <!-- Blade template including subview -->
+        @include('user.partials.header')
+        <!-- Blade template including subview -->
+
+
+        <!-- Blade template using slot variable  -->
+        <x-package-alert :type="$type" :message="$message" class="d-flex justify-content-center">
+            <h1>Welcome to the BOOKSTORE WEBSITE</h1>
+        </x-package-alert>
+
+    
+
+
+
         <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="text-success">District : {{$district}}</h1>

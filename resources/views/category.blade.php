@@ -27,7 +27,7 @@
         <div class="mb-3">
             <label for="nameCategory" class="form-label">Category Name</label>
                                                                                         <!-- Request using retrieve old input -->
-            <input type="text" class="form-control" id="nameCategory" name="name_category" value="{{ old('name_category') }}">
+            <input type="text" class="form-control" id="nameCategory" name="name_category" value="{{ old('name_category','Default') }}">
         </div>
 
         <div class="mb-3">

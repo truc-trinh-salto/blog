@@ -20,24 +20,23 @@ class HomeController extends Controller
         $name = Route::currentRouteName(); // string
         $action = Route::currentRouteAction(); // String
 
-        echo $name;
-        echo $action;
+        // echo $name;
+        // echo $action;
         
-        return View::first(['auth.logindas', 'welcome']);
+        return View::first(['auth.login', 'welcome']);
     }
 
     public function home(){
-        // var_dump($categories);
-        $categories = Category::where('category_id',1)->cursorPaginate(1);
-        
+        // var_dump($categories);        
         //View exists
         if(!view()->exists('user.home')){
             return view('auth.login');
         }
 
         //View nested directories
-        return view('user.home',['categories' => $categories]);
+        return view('user.test');
     }
+
     public function getAll(Request $request)
     {
         $posts = Post::all();

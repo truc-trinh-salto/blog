@@ -61,4 +61,13 @@ class CategoryController extends Controller implements HasMiddleware
 
         return view('category');        
     }
+
+    public function test(){
+        $test = request()->id;
+        if(request()->isMethod('get')){
+            return false;
+        }
+        
+        return 'abc';
+    }
 }

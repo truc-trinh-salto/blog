@@ -18,11 +18,10 @@
     <div class="app">
 
             
-
-
         <!-- Blade template including subview -->
         @include('user.partials.header')
         <!-- Blade template including subview -->
+
 
 
         <!-- Blade template using component
@@ -30,8 +29,8 @@
         <x-package-alert :$type :$message class="d-flex justify-content-center" name="alert-home"/>
         <!-- Blade template using component -->
 
-
         
+
         <!-- Blade template building layout -->
         <div class="container">
             @yield('content')
@@ -41,84 +40,4 @@
     
 </body>
 </html>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type="text/javascript">
-
-    if($(window).height() >= $(document).height()){
-        const lastID = $('.load-more').attr('lastID');
-        $.ajax({
-                url: '/book/getInfinity',
-                type: 'POST',
-                data: {id: lastID},
-                beforeSend: function() {
-                    $('.load-more').show();
-                },
-                success: function(html) {
-                    $('.load-more').remove();
-                    $('#categoryList').append(html);
-                    isLoading = false;
-                },
-                error: function(error) {
-                    console.error(error);
-                    $('.load-more').hide();
-                    isLoading = false;
-                }
-            });
-    }
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-
-    document.body.addEventListener('click', function(event) {
-        if (event.target.classList.contains('btn-add-to-cart')) {
-            event.preventDefault();
-            const productId = event.target.dataset.bookId;
-            const quantity = 1;
-
-            $.ajax({
-                url: '/cart/addtocart',
-                method: 'POST',
-                data: {book_id: productId, quantity: quantity},
-                success: function (response) {
-                        $('.display-cart').remove();
-                        $('.display-count-cart').remove();
-                        $('#show_cart').append(response);
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        }
-    });
-
-    let isLoading = false;
-    $(window).scroll(function() {
-        
-        if (isLoading) return;
-        const lastID = $('.load-more').attr('lastID');
-        const distance = $(document).height() - $(window).height();
-        if (((distance - $(window).scrollTop()) < 1) && lastID != 0) {
-            isLoading = true;
-            $.ajax({
-                url: '/book/getInfinity',
-                type: 'POST',
-                data: {id: lastID},
-                beforeSend: function() {
-                    $('.load-more').show();
-                },
-                success: function(html) {
-                    $('.load-more').remove();
-                    $('#categoryList').append(html);
-                    isLoading = false;
-                },
-                error: function(error) {
-                    console.error(error);
-                    $('.load-more').hide();
-                    isLoading = false;
-                }
-            });
-        }
-    });
-});
-</script>
+@yield('javascript')

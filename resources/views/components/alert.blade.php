@@ -5,10 +5,7 @@
     }} 
     role="alert" > 
     <!-- Blade template using attributes of component -->
-    @if(empty($slot))
-        {{ $slot }}
-    @else
-        {{ $message }}
-    @endif
+
+    {{$message}}
 
 </div>

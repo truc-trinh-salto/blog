@@ -1,3 +1,8 @@
+@php
+    $type = 'success';
+    $message = session('status','');
+@endphp
+
 <!DOCTYPE html>
 <html>
    <head>

@@ -27,7 +27,9 @@ class HomeController extends Controller
     }
 
     public function home(){
-        // var_dump($categories);        
+
+        // var_dump($categories); 
+        
         //View exists
         if(!view()->exists('user.home')){
             return view('auth.login');

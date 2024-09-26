@@ -140,9 +140,9 @@
             const quantity = 1;
 
             $.ajax({
-                url: '/cart/addtocart',
+                url: '/cart/addToCart',
                 method: 'POST',
-                data: {book_id: productId, quantity: quantity},
+                data: {book_id: productId, quantity: quantity, _token: <?php echo csrf_token() ?>},
                 success: function (response) {
                         $('.display-cart').remove();
                         $('.display-count-cart').remove();

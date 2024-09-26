@@ -12,6 +12,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Book;
@@ -161,6 +162,19 @@ Route::middleware('ensureUsernameEmail')->group( function(){
 Route::post('/login', [AuthController::class,'login']);
 
 
+
+//ROUTES OF CART
+Route::post('/cart/addToCart',[CartController::class,'addToCart']);
+
+Route::get('/cart/removeFromCart',[CartController::class,'removeFromCart']);
+
+Route::get('/cart/showCart',[CartController::class,'showCart']);
+
+Route::get('/cart/clearCart',[CartController::class,'clearCart']);
+
+//Session blocking
+Route::post('/cart/updateCart',[CartController::class,'updateCart'])
+->block($lockSeconds = 5,$waitSeconds = 5);
 
 
 //Controller Additional Resources

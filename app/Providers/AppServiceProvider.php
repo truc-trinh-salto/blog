@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         Facades\View::share('country', 'Viet Nam');
 
         //Views composer class base
-        Facades\View::composer(['home','user.home','auth.login','user.test'],BookComposer::class);
+        Facades\View::composer(['home','user.home','auth.login','user.test','user.view_cart'],BookComposer::class);
 
         //View composer colsure base with Multiple views
         Facades\View::composer(['home','auth.login','welcome'], function (View $view) {

@@ -1,6 +1,4 @@
 @php
-    session_start();
-
     // if (isset($_GET['lang']) && !empty($_GET['lang'])) {
     //     $_SESSION['lang'] = $_GET['lang'];
     //     if (isset($_SESSION['lang']) && $_SESSION['lang'] != $_GET['lang']) {
@@ -17,11 +15,11 @@
 
     // $category_last;
 
-    $type = 'success';
-    $message = 'The successful Alert';
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = array();
-        $_SESSION['qty_array'] = array();
+    if(!session()->has('cart')){
+        $cart = array();
+        $qtyCart = array();
+        session()->put('cart', $cart);
+        session()->put('qty_array',$qtyCart);
     }
 
 @endphp
@@ -104,9 +102,9 @@
             const quantity = 1;
 
             $.ajax({
-                url: '/cart/addtocart',
+                url: '/cart/addToCart',
                 method: 'POST',
-                data: {book_id: productId, quantity: quantity},
+                data: {book_id: productId, quantity: quantity, _token: '{{ csrf_token() }}'},
                 success: function (response) {
                         $('.display-cart').remove();
                         $('.display-count-cart').remove();

@@ -7,7 +7,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Book Store</a>
+            <a class="navbar-brand" href="/home">Book Store</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,14 +24,14 @@
                     </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if(isset($_SESSION['user_id']))
-                                    {{ $_SESSION['fullname'] }}
+                                @if(session()->has('user_id'))
+                                    {{ session('fullname')}}
                                 @else
                                     {{ __('message._USERNAME') }}
                                 @endif
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if(isset($_SESSION['user_id']))
+                            @if(session()->has('user_id'))
                                 <a class="dropdown-item" href="/history">{{ __('message._HISTORY') }}</a>
                                 <a class="dropdown-item" href="/profile">{{ __('message._PROFILE') }}</a>
                                 <a class="dropdown-item" href="/codesale">{{ __('message._CODESALE') }}</a>
@@ -44,12 +44,12 @@
                     </li>
 
                     <li class="nav-item dropdown" id="show_cart">
-                        <a class="nav-link dropdown-toggle display-count-cart" href="view_cart.php" id="navbarDropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="badge">{{ count($_SESSION['cart']) }}</span> Cart <span class="glyphicon glyphicon-shopping-cart"></span> 
+                        <a class="nav-link dropdown-toggle display-count-cart" href="/cart/showCart" id="navbarDropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="badge">{{ count(session('cart')) }}</span> Cart <span class="glyphicon glyphicon-shopping-cart"></span> 
                         </a>
-                        @if(count($_SESSION['cart']) >0 )
+                        @if(count(session('cart')) >0)
                         <div class="dropdown-menu display-cart"aria-labelledby="navbarDropdown">
-                            @foreach($book_cart as $cart):?>
+                            @foreach($book_cart as $cart)
                                 <div class="row mt-4">
                                     <div class="col-6">
                                         <img width="70" height="70" src="{{ $cart['address'] }}">
@@ -59,7 +59,7 @@
 
                                         <!-- Blade template using raw php -->
                                         @php 
-                                            $index = array_search($cart['book_id'], $_SESSION['cart']);
+                                            $index = array_search($cart['book_id'], session('cart'));
                                             $price = $cart['price'];
                                             if($cart['sale'] != null && $cart['sale'] > 0) {
                                                 $price = $price - ($price * $cart['sale'] / 100);
@@ -67,8 +67,8 @@
                                         @endphp
                                         <!-- Blade template using raw php -->
 
-                                        <p>{{ $_SESSION['qty_array'][$index] }}</p>
-                                        <p class="font-weight-bold text-info" style="font-size:10px;">{{ number_format($price * $_SESSION['qty_array'][$index],2) }}</p>
+                                        <p>{{ session('qty_array')[$index] }}</p>
+                                        <p class="font-weight-bold text-info" style="font-size:10px;">{{ number_format($price * session('qty_array')[$index],2) }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -86,11 +86,11 @@
                             <input type='hidden' name='book_id' value=>
                             <input type='hidden' name='username' value=>
 							{{ __('message._SELECTLANGUAGES')}} <select name='lang' class="text-info font-weight-bold" onchange='changeLang();' >
-							<option value='en' @selected(isset($_SESSION['lang']) && $_SESSION['lang'] == 'en')>
+							<option value='en' @selected(session()->has('lang') && session('lang') == 'en')>
                                 English
                             </option>
 
-							<option value='vi' @selected(isset($_SESSION['lang']) && $_SESSION['lang'] == 'vi')>
+							<option value='vi' @selected(session()->has('lang') && session('lang') == 'vi')>
                                 Vietnamese
                             </option>
 							</select>

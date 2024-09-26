@@ -21,8 +21,12 @@ class BookComposer
     public function compose(View $view): void
     {
         $categories = Category::all();
+
+        $carts = session('cart',[]);
+        $book_carts = Book::find($carts);
         //View Composer
         $view->with('books', $this->books::all())
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('book_cart', $book_carts);
     }
 }

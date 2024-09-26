@@ -36,29 +36,41 @@ class CategoryController extends Controller implements HasMiddleware
         $name = $request->string('name')->trim();
 
         //Request uploads File
-        if ($request->file('myfile')->isValid()) {
-            $file = $request->file('myfile');
-
-
-            //Create images/uploads/img.jpg in storage/app/
-            $path = $request->myfile->store('images/uploads');
-
-            echo $path;
+        if($request->hasFile('myfile')){
+            if ($request->file('myfile')->isValid()) {
+                $file = $request->file('myfile');
+    
+    
+                //Create images/uploads/img.jpg in storage/app/
+                $path = $request->myfile->store('images/uploads');
+    
+                echo $path;
+            }
         }
 
 
-        //Request input persence
-        $request->whenHas('name', function (string $input) {
-            $category = Category::where('name_category',$input)->get();
-            if($category){
-                return back()
-                        ->withErrors(['name_category' => 'Category name already exists'])
-                        ->withInput();//Response redirect back
-            }
-        }, function(){
-            return view('category');
-        });
+        // //Request input persence
+        // $request->whenHas('name', function (string $input) {
+        //     $category = Category::where('name_category',$input)->get();
+        //     if($category){
+        //         return back()
+        //                 ->withErrors(['name_category' => 'Category name already exists'])
+        //                 ->withInput();//Response redirect back
+        //     }
+        // }, function(){
+        //     return view('category');
+        // });
 
+        //Validation using basics
+        $validators = $request->validate(['name_category'=>['required','unique:categories','min:5']]);
+
+
+        //Validation using error messages
+        if($validators){
+            return back()->withErrors($validators)
+            ->withInput();
+        }
+        
         return view('category');        
     }
 

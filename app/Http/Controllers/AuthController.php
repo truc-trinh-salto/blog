@@ -9,12 +9,13 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\RedirectResponse;
 use App\Enums\UserRole;
 use App\Http\Controllers\HomeController;
+use App\Http\Requests\RegisterPostRequest;
 
 class AuthController extends Controller
 {
     //Controller Denpendency Injection
     //Request Denpendency Injection
-    public function register(Request $request): RedirectResponse{
+    public function registerWithoutValidation(Request $request): RedirectResponse{
         //Request inspect path and retrieve method
 
         //Request input 
@@ -45,6 +46,55 @@ class AuthController extends Controller
 
         return redirect('register');
     }
+
+    //Validation form request
+
+    public function registerWithValidation (RegisterPostRequest $request){
+
+        //Validation validate action
+        $validated = $request->validated();
+
+        //Validation get portion of validated input
+        $inputValidated = $request->safe();
+
+        return redirect('register');
+    }
+
+
+    //Validation using Facades/Validator
+    public function registerWithValidationManual(Request $request){
+
+        $input = $request->all();
+
+        //Validation using Validator 
+        $validator = Validator::make($input,
+                                    [
+                                        'name' => 'required|unique:users|max:255|min:8|alpha_num:ascii',
+                                        'email' => 'required|unique:users|email:rfc,dns',
+                                        'fullname' => 'required|max:255',
+                                        'phone_number' => 'nullable|max:11',
+                                        'birthday' => 'nullable | date',
+                                        'checkTerm' => 'accepted',
+                                    ],[
+                                        'name.unique' => 'This username has been already existed',
+                                        'email.unique' => 'This email address has been already existed',
+                                    ],[
+                                        'email' => 'email address',
+                                        'name' => 'username'
+                                    ]);
+
+        if($validator->fails()) {
+            return back()->withErrors($validator)
+            ->withInput();
+        }
+
+        $inputValidated = $validator->validated();
+
+        return redirect('register');
+    }
+
+
+
 
     //Controller Denpendency Injection
     public function login(Request $request){

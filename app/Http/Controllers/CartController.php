@@ -35,7 +35,7 @@ class CartController extends Controller
 
         $bookId = $request->query('book_id');
         $index = $request->query('index');
-        
+
         //Session retrieve value and default value of cart session
         $cart = session('cart',[]);
         $qtyCart = session('qty_array',[]);
@@ -84,6 +84,7 @@ class CartController extends Controller
         $cart = session('cart',[]);
         $qtyCart = session('qty_array',[]);
         $indexes = $request->input('indexes',[]);
+
 
 
         if(count($indexes) > 0){

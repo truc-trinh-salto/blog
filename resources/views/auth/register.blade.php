@@ -38,15 +38,7 @@
       <div class="d-flex justify-content-center">
         <h1 class="text-info font-weight-bold">Welcome: {{$name}}</h1>
       </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
       <div class="container">
           <div class="mt-4">
             <div class="row d-flex justify-content-around">
@@ -60,23 +52,39 @@
 
                     <div class="col-md-12">
                         <label for="date" class="pb-2">{{ __('message._BIRTHDAY') }}:</label>
-                        <input type="date" class="form-control" id="date" name="birthday" value="{{ old('birthday') }}" required>
+                        <input type="date" class="form-control @error('birthday') is-invalid @enderror" id="date" name="birthday" value="{{ old('birthday') }}" required>
                     </div>
+
+                    @error('birthday')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="col-md-12">
                         <label for="phone" class="pb-2">{{ __('message._PHONE') }}:</label>
-                        <input type="text" class="form-control" id="phone" placeholder="{{ __('message._PHONE') }}" name="phone_number" value="{{ old('phone_number') }}" required>
+                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone" placeholder="{{ __('message._PHONE') }}" name="phone_number" value="{{ old('phone_number') }}" required>
                     </div>
+
+                    @error('phone_number')
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
 
                     <div class="col-md-12">
                         <label for="username" class="form-label">{{ __('message._USERNAME') }}</label>
-                        <input type="username" class="form-control" id="username" name="name" placeholder="{{ __('message._USERNAME') }}" value="{{ old('name') }}" required>
+                        <input type="username" class="form-control @error('name') is-invalid @enderror" id="username" name="name" placeholder="{{ __('message._USERNAME') }}" value="{{ old('name') }}" required>
                     </div>
+
+                    @error('name')
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
 
                     <div class="col-md-12">
                         <label for="email" class="form-label">{{ __('message._EMAIL') }}</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('message._EMAIL') }}" value="{{ old('email') }}" required>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="{{ __('message._EMAIL') }}" value="{{ old('email') }}" required>
                     </div>
+
+                    @error('email') 
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
 
                     <div class="col-md-12">
                         <label for="pwd" class="pb-2">{{ __('message._PASSWORD') }}:</label>
@@ -91,12 +99,16 @@
                     
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                        <input class="form-check-input @error('checkTerm') is-invalid @enderror" type="checkbox" value="" id="invalidCheck2" name="checkTerm">
                         <label class="form-check-label" for="invalidCheck2">
                           {{ __('message._AGREETERM') }}
                         </label>
                       </div>
                     </div>
+
+                    @error('checkTerm') 
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
 
                     <div class="col-12">
                       <button class="btn btn-success" name="btn" type="submit">{{ __('message._SUBMIT') }}</button>

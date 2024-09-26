@@ -154,9 +154,7 @@ Route::fallback(function(){
 });
 
 //Middleware using group 
-Route::middleware('ensureUsernameEmail')->group( function(){
-    Route::post('/register', [AuthController::class,'register']);
-});
+Route::post('/register', [AuthController::class,'registerWithValidationManual']);
 
 
 Route::post('/login', [AuthController::class,'login']);

@@ -140,7 +140,6 @@ return [
     "_TRANSACTION" =>"Transactions",
     "_ROLE" =>"Role",
     
-    
     "_TOTALPRICEBOOK" =>"Total price of book",
     "_ORDERID" =>"Order ID",
     "_TOTALORDER" =>"Total price of order",

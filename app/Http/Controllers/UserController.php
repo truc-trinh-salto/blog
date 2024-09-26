@@ -11,4 +11,9 @@ class UserController extends Controller
     public function show(){
         return User::all();
     }
+
+    public function edit(User $user){
+
+        return User::find($user);
+    }
 }

@@ -88,13 +88,21 @@
 
                     <div class="col-md-12">
                         <label for="pwd" class="pb-2">{{ __('message._PASSWORD') }}:</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="{{ __('message._PASSWORD') }}" name="password" required>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="pwd" placeholder="{{ __('message._PASSWORD') }}" name="password" required>
                     </div>
+
+                    @error('password') 
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
 
                     <div class="col-md-12">
                         <label for="pwd" class="pb-2">{{ __('message._CONFIRMPASSWORD') }}:</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="{{ __('message._CONFIRMPASSWORD') }}" name="password_confirmation" required>
+                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="pwd" placeholder="{{ __('message._CONFIRMPASSWORD') }}" name="password_confirmation" required>
                     </div>
+
+                    @error('password_confirmation') 
+                      <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
                     
                     
                     <div class="col-12">

@@ -13,6 +13,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ManagementController;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Book;
@@ -158,6 +159,10 @@ Route::post('/register', [AuthController::class,'registerWithValidationManual'])
 
 
 Route::post('/login', [AuthController::class,'login']);
+
+Route::post('/management/book/create',[BookController::class,'create']);
+Route::get('/management/book/create',[ManagementController::class,'pageCreateBook']);
+
 
 
 

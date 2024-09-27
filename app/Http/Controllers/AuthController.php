@@ -67,27 +67,32 @@ class AuthController extends Controller
         $input = $request->all();
 
         //Validation using Validator 
+        //Validation using Password
         $validator = Validator::make($input,
-                                    [
-                                        'name' => 'required|unique:users|max:255|min:8|alpha_num:ascii',
-                                        'email' => 'required|unique:users|email:rfc,dns',
-                                        'fullname' => 'required|max:255',
-                                        'phone_number' => 'nullable|max:11',
-                                        'birthday' => 'nullable | date',
-                                        'checkTerm' => 'accepted',
-                                    ],[
-                                        'name.unique' => 'This username has been already existed',
-                                        'email.unique' => 'This email address has been already existed',
-                                    ],[
-                                        'email' => 'email address',
-                                        'name' => 'username'
-                                    ]);
+                            [
+                                'name' => 'required|unique:users|max:255|min:8|alpha_num:ascii',
+                                'email' => 'required|unique:users|email:rfc,dns',
+                                'fullname' => 'required|max:255',
+                                'phone_number' => 'nullable|max:11',
+                                'birthday' => 'nullable | date',
+                                'checkTerm' => 'accepted',
+                                'password'=>['required','confirmed',Password::min(8)->mixedCase()->numbers()],
+                                'password_confirmation' => 'required|min:8|same:password'],
+
+                            [
+                                'name.unique' => 'This username has been already existed',
+                                'email.unique' => 'This email address has been already existed'],
+                            [
+                                'email' => 'email address',
+                                'name' => 'username'
+                            ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator)
             ->withInput();
         }
 
+        //Retrieve validated input
         $inputValidated = $validator->validated();
 
         return redirect('register');

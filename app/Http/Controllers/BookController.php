@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookPostRequest;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
@@ -29,5 +30,13 @@ class BookController extends Controller
         //Response attaching cookies
         //View passing data to view
         return response()->view('home', ['book' => $book])->cookie($cookie);
+    }
+
+    public function create(BookPostRequest $request){
+        $validator = $request->validated();
+
+        var_dump(session());
+
+        return redirect('/mangement/book/create');
     }
 }

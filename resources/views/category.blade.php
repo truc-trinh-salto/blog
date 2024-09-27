@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
-        <p>{{ __('message._REGISTER') }}</p>
+        <!-- Validation display errors -->
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -21,14 +21,29 @@
         @endif
 
 
-    <form method="POST" action="/category/create">
-        @csrf
+    <form method="POST" action="/category/create" enctype="multipart/form-data">
+        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="mb-3">
             <label for="nameCategory" class="form-label">Category Name</label>
-            <input type="text" class="form-control" id="nameCategory" name="name_category" value="{{ old('name_category') }}">
+                                                                                        <!-- Request using retrieve old input -->
+            <input type="text" class="form-control @error('name_category') is-invalid @enderror " id="nameCategory" name="name_category" value="{{ old('name_category','Default') }}">
         </div>
 
-        <!-- <input type="text" name="_token" value="{{ csrf_token() }}" /> -->
+        <!-- Validation using error directive -->
+        @error('name_category') 
+            <div class="alert alert-danger">
+                {{$message}}
+            </div>
+        @enderror
+
+        <div class="mb-3">
+            <label for="myfile" class="form-label">Category's Image</label>
+                                                                                        
+            <input type="file" id="myfile" name="myfile">
+        </div>
+
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

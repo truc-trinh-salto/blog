@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\UserException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -8,6 +9,8 @@ use App\Http\Middleware\EnsureValidEmail;
 use App\Http\Middleware\EnsureValidUsername;
 use App\Http\Middleware\EnsureBookHasEdit;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Console\Commands\SendEmails;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -53,5 +56,5 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        
     })->create();

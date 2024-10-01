@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,9 @@ class HomeController extends Controller
 
         // echo $name;
         // echo $action;
+        if(Auth::check()){
+            return redirect('/home');
+        }
         
         return View::first(['auth.login', 'welcome']);
     }
@@ -36,7 +40,7 @@ class HomeController extends Controller
         }
 
         //View nested directories
-        return view('user.test');
+        return view('user.home');
     }
 
     public function getAll(Request $request)

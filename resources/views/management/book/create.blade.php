@@ -68,6 +68,7 @@
                         </div>
                     @enderror
 
+
                     <div class="form-group">
 						<label for="exampleInputAuthor1">{{ __('message._AUTHORS') }}<span class="text-danger">(*)</span></label>
 						<input type="text" class="form-control @error('authors') is-invalid @enderror" id="exampleInputAuthor1" placeholder="{{ __('message._AUTHORS') }}" name="authors" required value="{{ old('authors') }}">

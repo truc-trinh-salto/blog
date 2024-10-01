@@ -115,4 +115,6 @@ class AuthController extends Controller
         //Response return view with data
         return response()->view('welcome',['name' => $username['username']]);
     }
+
+    
 }

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\Unique;
+
 
 class BookPostRequest extends FormRequest
 {

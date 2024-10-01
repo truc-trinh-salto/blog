@@ -1,6 +1,12 @@
 @php
     $type = 'success';
     $message = session('status','');
+    if(!session()->has('cart')){
+        $cart = array();
+        $qtyCart = array();
+        session()->put('cart', $cart);
+        session()->put('qty_array',$qtyCart);
+    }
 @endphp
 
 <!DOCTYPE html>

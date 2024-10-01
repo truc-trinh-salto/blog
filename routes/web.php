@@ -92,6 +92,18 @@ Route::get('/profile/users',function(){
     return redirect()->route('profileAll');
 });
 
+Route::get('/errors/user',function(){
+    if(!session()->has('cart')){
+        $cart = array();
+        $qtyCart = array();
+        session()->put('cart', $cart);
+        session()->put('qty_array',$qtyCart);
+    }
+    //Response Redirect name routes
+    return ;
+});
+
+
 
 
 //Route middleware 
@@ -157,8 +169,9 @@ Route::fallback(function(){
 //Middleware using group 
 Route::post('/register', [AuthController::class,'registerWithValidationManual']);
 
+Route::get('/logout', [UserController::class,'logout']);
 
-Route::post('/login', [AuthController::class,'login']);
+Route::post('/login', [UserController::class,'login']);
 
 Route::post('/management/book/create',[BookController::class,'create']);
 Route::get('/management/book/create',[ManagementController::class,'pageCreateBook']);

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 
 Route::get('/hello',function(){
@@ -30,6 +31,12 @@ Route::Get('/download',function(){
             );
     //Response download file
     return response()->download($file, 'filename.pdf', $headers);
+});
+
+Route::get('/sendMail/{id}', function (string $id) {
+    $exitCode = Artisan::call('mail:send',['user_id'=>$id]);
+    return $exitCode;
+    // ...
 });
 
 

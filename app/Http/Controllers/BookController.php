@@ -17,6 +17,8 @@ class BookController extends Controller
 
         $book = Book::where('book_id',$bookId)->firstOrFail();
 
+        
+
         foreach($book->branches as $branch){
             var_dump($branch->pivot->status);
         }

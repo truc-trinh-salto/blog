@@ -24,14 +24,14 @@
                     </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if(session()->has('user_id'))
+                                @if(session()->has('email'))
                                     {{ session('fullname')}}
                                 @else
                                     {{ __('message._USERNAME') }}
                                 @endif
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if(session()->has('user_id'))
+                            @if(session()->has('email'))
                                 <a class="dropdown-item" href="/history">{{ __('message._HISTORY') }}</a>
                                 <a class="dropdown-item" href="/profile">{{ __('message._PROFILE') }}</a>
                                 <a class="dropdown-item" href="/codesale">{{ __('message._CODESALE') }}</a>
@@ -86,11 +86,11 @@
                             <input type='hidden' name='book_id' value=>
                             <input type='hidden' name='username' value=>
 							{{ __('message._SELECTLANGUAGES')}} <select name='lang' class="text-info font-weight-bold" onchange='changeLang();' >
-							<option value='en' @selected(session()->has('lang') && session('lang') == 'en')>
+							<option value='en'>
                                 English
                             </option>
 
-							<option value='vi' @selected(session()->has('lang') && session('lang') == 'vi')>
+							<option value='vi'>
                                 Vietnamese
                             </option>
 							</select>

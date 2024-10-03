@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\DB;
 
@@ -38,6 +40,12 @@ class HomeController extends Controller
         if(!view()->exists('user.home')){
             return view('auth.login');
         }
+
+        //Cache retrieve item
+        Cache::lock('email', 10)->get(function () {
+            $email = Cache::get('email');
+            Log::info("Cache lock of email : ".$email);
+        });
 
         //View nested directories
         return view('user.home');

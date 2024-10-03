@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cache;
  
 class BookComposer
 {
@@ -20,7 +21,9 @@ class BookComposer
      */
     public function compose(View $view): void
     {
-        $categories = Category::all();
+        $categories = Cache::remember("categkey: ories",5,function(){
+            return Category::all();
+        });
 
         $carts = session('cart',[]);
         $book_carts = Book::find($carts);

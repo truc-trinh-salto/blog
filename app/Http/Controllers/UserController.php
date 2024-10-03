@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use App\Events\MessageNotification;
 
 class UserController extends Controller
@@ -31,6 +32,10 @@ class UserController extends Controller
             session()->put('email',Auth::user()->email);
             $userId = Auth::user()->id;
             $user = User::find($userId);
+
+            //Cache add item
+            Cache::add('email',$user->email);
+
             broadcast(new MessageNotification($user));
             return redirect('/home');
         } else {

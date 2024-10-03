@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Events\MessageNotification;
 
 class UserController extends Controller
 {
@@ -28,6 +29,9 @@ class UserController extends Controller
         if (Auth::attempt($login)) {
             session()->put('fullname',Auth::user()->fullname);
             session()->put('email',Auth::user()->email);
+            $userId = Auth::user()->id;
+            $user = User::find($userId);
+            broadcast(new MessageNotification($user));
             return redirect('/home');
         } else {
             return redirect()->back()->with('status', 'Email hoặc Password không chính xác');

@@ -65,9 +65,10 @@
 @endsection
 
 @section('javascript')
+@vite('resources/js/app.js')
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-
+    
     if($(window).height() >= $(document).height()){
         const lastID = $('.load-more').attr('lastID');
         $.ajax({

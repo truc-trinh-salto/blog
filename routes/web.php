@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ManagementController;
+use App\Events\OrderShipmentStatusUpdated;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Book;
@@ -148,6 +149,7 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 
 //Route scope bindings
 Route::get('users/{user}/orders/{order:id}', function (User $user, Order $order) {
+    OrderShipmentStatusUpdated::dispatch($order);
     return $order;
 })->scopeBindings();
 

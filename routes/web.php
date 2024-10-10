@@ -31,6 +31,8 @@ use App\Http\Middleware\EnsureValidCategoryName;
 use App\Http\Middleware\AddContext;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+ 
 
 
 //Route default
@@ -234,9 +236,7 @@ Route::get('/collection', function(){
  
     $slice = $collection->slice(4);
      
-    $slice->all();
-
-    Log::info('Test context');
+    $slice->all();  
 
     echo $slice;
 });
@@ -249,6 +249,7 @@ Route::get('/context', function(){
 
 
 })->middleware(AddContext::class);
+
 
 
 

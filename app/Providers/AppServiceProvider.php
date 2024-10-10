@@ -15,11 +15,16 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
 use Illuminate\Log\Context\Repository;
 use App\View\Components\Alert;
+use Illuminate\Support\Facades\Event;
+use App\Events\LogoutEvent;
+use App\Listeners\UserEventSubscriber;
+
 
 use App\Models\User;
 use App\Models\Branch;
 
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -87,6 +92,16 @@ class AppServiceProvider extends ServiceProvider
         Context::hydrated(function (Repository $context) {
             $context->add('locale', 'en');
         });
+
+        //Event manually registering
+        Event::listen(function(LogoutEvent $event){
+            Log::info("Listener dispatch logout of user: ".$event->user->fullname);
+        });
+
+        //Event manually registering subscriber
+        // Event::subscribe(UserEventSubscriber::class);
+
+
 
     }
 }

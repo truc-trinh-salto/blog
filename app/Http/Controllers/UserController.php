@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Context;
 
+
 use App\Events\MessageNotification;
+use App\Events\LogoutEvent;
+
 
 class UserController extends Controller
 {
@@ -45,6 +48,10 @@ class UserController extends Controller
 
             var_dump(Context::get('url'));
 
+
+            //Events
+            event(new MessageNotification($user));
+
             return redirect('/home');
         } else {
             return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
@@ -52,6 +59,12 @@ class UserController extends Controller
     }
 
     public function logout(){
+        $userId = Auth::user()->id;
+        $user = User::find($userId);
+        //Dispatch Event
+        event(new LogoutEvent($user));
+
+        
         Auth::logout();
         session()->invalidate();
         return redirect('/welcome');

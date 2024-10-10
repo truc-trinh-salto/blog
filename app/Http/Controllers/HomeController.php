@@ -43,6 +43,7 @@ class HomeController extends Controller
 
         //Cache retrieve item
         Cache::lock('email', 10)->get(function () {
+            sleep(5);
             $email = Cache::get('email');
             Log::info("Cache lock of email : ".$email);
         });

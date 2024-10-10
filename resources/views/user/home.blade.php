@@ -27,6 +27,13 @@
 
 
 @section('content')
+    @php
+            use Illuminate\Support\Facades\Context;
+
+            $context = Context::all();
+
+            var_dump($context); 
+    @endphp
     <script>
         function changeLang(){
         document.getElementById('form_lang').submit();

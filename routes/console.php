@@ -10,13 +10,15 @@ Artisan::command('inspire', function () {
 
 
 //Artisan console description
-Artisan::command('mail:send {user_id}', callback: function (string $user_id) {
+Artisan::command('mail:send {user_id}', function (string $user_id) {
     $user = User::find($user_id);
     if($user){
         $name = $user->fullname;
         $this->info("Sending email to: {$name}!");
         return 0;
     } else {
+        $this->error('Something went wrong!');
         return 1;
     }
-})->purpose('Send a marketing email to a user');
+})->purpose(
+    'Send a marketing email to a user');

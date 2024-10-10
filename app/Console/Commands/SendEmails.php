@@ -18,8 +18,12 @@ class SendEmails extends Command implements PromptsForMissingInput
      *
      * @var string
      */
+
+    //Console name command
     protected $signature = 'app:send-emails {user* : The IDs of the user} {--Q|queue=default : whether the job should be queued}';
 
+
+    //Console description
     /**
      * The console command description.
      *
@@ -32,6 +36,9 @@ class SendEmails extends Command implements PromptsForMissingInput
      */
     public function handle()
     {
+
+
+        //Console choice
         $name = $this->choice(
             'What is your name?',
             ['Taylor', 'Dayle'],
@@ -39,13 +46,24 @@ class SendEmails extends Command implements PromptsForMissingInput
             $maxAttempts = 4,
             $allowMultipleSelections = true
         );
+
+        //Console secrect
         $password = $this->secret('What is the password?');
+
+
+        //Console progress bar
+        $usersProgressBar = $this->withProgressBar(User::all(), function (User $user) {
+            
+        });
+
+        //Console confrim
         if ($this->confirm('Do you wish to continue?',true)) {
             $users = $this->argument('user');
             foreach($users as $user){
                 $this->info("Send email to the {$name[0]}!");
             }
         } else {
+            //Console Table
             $this->table(
                 ['Name', 'Email'],
                 User::all(['name', 'email'])->toArray()
@@ -54,6 +72,8 @@ class SendEmails extends Command implements PromptsForMissingInput
         return 0;
     }
 
+
+    //Console after prompt missing
     protected function promptForMissingArgumentsUsing(): array
     {
         return [

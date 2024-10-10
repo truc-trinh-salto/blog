@@ -21,7 +21,7 @@ class BookComposer
      */
     public function compose(View $view): void
     {
-        $categories = Cache::remember("categkey: ories",5,function(){
+        $categories = Cache::flexible("categories",[5,10],function(){
             return Category::all();
         });
 

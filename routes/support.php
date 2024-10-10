@@ -33,8 +33,11 @@ Route::Get('/download',function(){
     return response()->download($file, 'filename.pdf', $headers);
 });
 
+
+//Console 
 Route::get('/sendMail/{id}', function (string $id) {
     $exitCode = Artisan::call('mail:send',['user_id'=>$id]);
+
     return $exitCode;
     // ...
 });

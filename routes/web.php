@@ -25,8 +25,12 @@ use App\Models\Branch;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Concurrency;
 use App\Http\Middleware\EnsureValidUsername;
 use App\Http\Middleware\EnsureValidCategoryName;
+use App\Http\Middleware\AddContext;
+use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Log;
 
 
 //Route default
@@ -173,7 +177,7 @@ Route::post('/register', [AuthController::class,'registerWithValidationManual'])
 
 Route::get('/logout', [UserController::class,'logout']);
 
-Route::post('/login', [UserController::class,'login']);
+Route::post('/login', [UserController::class,'login'])->middleware(AddContext::class);
 
 Route::post('/management/book/create',[BookController::class,'create']);
 Route::get('/management/book/create',[ManagementController::class,'pageCreateBook']);
@@ -222,6 +226,29 @@ Route::resource('books.comments', BookCommentController::class)->scoped([
 
 //Controller Resource Singleton
 Route::singleton('profile', ProfileController::class);
+
+
+Route::get('/collection', function(){
+
+    $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+ 
+    $slice = $collection->slice(4);
+     
+    $slice->all();
+
+    Log::info('Test context');
+
+    echo $slice;
+});
+
+
+Route::get('/context', function(){
+    $context = Context::all();
+
+    var_dump($context);
+
+
+})->middleware(AddContext::class);
 
 
 

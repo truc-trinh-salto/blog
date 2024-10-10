@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Support\Facades\Cache;
 
 class CartController extends Controller
 {
@@ -59,6 +60,10 @@ class CartController extends Controller
     }
 
     public function showCart(Request $request){
+
+
+        //Cache retrieve item when cach lock
+        $email = Cache::get('email');
 
         $cartSession = request()->session()->get('cart'); 
 

@@ -35,7 +35,17 @@ class MessageNotification
     {
         Log::info("Broadcast to user : ",$this->user->fullname);
         return [
-            new PrivateChannel('user.'.$this->user->id),
+            new Channel('test'),
         ];
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array<string, mixed>
+     */
+    public function broadcastWith(): array
+    {
+        return ['id' => $this->user->id];
     }
 }

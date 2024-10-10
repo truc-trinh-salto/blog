@@ -6,12 +6,14 @@ use App\View\Components\CardBook;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades;
 use App\Http\ViewComposers\BookComposer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
+use Illuminate\Log\Context\Repository;
 use App\View\Components\Alert;
 
 use App\Models\User;
@@ -80,6 +82,11 @@ class AppServiceProvider extends ServiceProvider
         //Blade template registering package components
         Blade::component('package-alert', Alert::class);
         Blade::component('card-book', CardBook::class);
+
+
+        Context::hydrated(function (Repository $context) {
+            $context->add('locale', 'en');
+        });
 
     }
 }

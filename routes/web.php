@@ -32,6 +32,7 @@ use App\Http\Middleware\AddContext;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
  
 
 
@@ -123,6 +124,16 @@ Route::middleware('subscribed')->group(function(){
     Route::get('/management/{role}/categories',function(){
         return Category::all();
     })->withoutMiddleware('subscribed');
+});
+
+Route::get('/file', function(){
+
+    $content = fopen(storage_path('app/images/uploads/z5JWyd3vJJF5C8FxWHBrLumzZZ1nNyjr9kdbgsnM.jpg'),'r');
+    if (! Storage::put('file.jpg', $content)) {
+        return false;
+    }
+    return true;
+    
 });
 
 //Route controller and prefix
@@ -232,13 +243,13 @@ Route::singleton('profile', ProfileController::class);
 
 Route::get('/collection', function(){
 
-    $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]);
  
-    $slice = $collection->slice(4);
+    $groups = $collection->splitIn(4);
      
-    $slice->all();  
+    $groups->all();  
 
-    echo $slice;
+    echo $groups;
 });
 
 
@@ -249,6 +260,10 @@ Route::get('/context', function(){
 
 
 })->middleware(AddContext::class);
+
+
+
+
 
 
 

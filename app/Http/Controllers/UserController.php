@@ -17,6 +17,7 @@ use App\Events\LogoutEvent;
 
 class UserController extends Controller
 {
+
     //
     public function show(){
         return User::all();
@@ -44,13 +45,15 @@ class UserController extends Controller
             //Cache add item
             Cache::add('email',$user->email);
 
+
             Log::info('User authenticated.', ['auth_id' => Auth::id()]);
 
             var_dump(Context::get('url'));
 
 
             //Events
-            event(new MessageNotification($user));
+            // event(new MessageNotification($user));
+            MessageNotification::dispatch($user);
 
             return redirect('/home');
         } else {
@@ -64,7 +67,7 @@ class UserController extends Controller
         //Dispatch Event
         event(new LogoutEvent($user));
 
-        
+
         Auth::logout();
         session()->invalidate();
         return redirect('/welcome');

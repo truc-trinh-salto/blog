@@ -50,7 +50,11 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="card card-course-item">
                                         <a href="">
-                                            <img class="card-img-top" width="150" height="200" src="{{ $book->defaultImage? storage_path().'/app/'.$book->defaultImage->address:'https://tse4.mm.bing.net/th?id=OIP.ZiwfBrifIO4lV_Q-gIC7VQHaKx&pid=Api&P=0&h=180' }}" alt="">
+                                            <img class="card-img-top" width="150" height="200" 
+                                            src="{{ $book->defaultImage ? 
+                                                    asset('storage/'.str_replace('public/','',$book->defaultImage->address))
+                                                    :
+                                                    'https://tse4.mm.bing.net/th?id=OIP.ZiwfBrifIO4lV_Q-gIC7VQHaKx&pid=Api&P=0&h=180' }}" alt="">
                                         </a>
                                         
                                     <x-card-book :$book>

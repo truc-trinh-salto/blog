@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookPostRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Response;
@@ -38,6 +39,9 @@ class BookController extends Controller
         $validator = $request->validated();
 
         var_dump(session());
+
+        $path = Storage::putFile('photos',$request->image);
+        
 
         return redirect('/mangement/book/create');
     }

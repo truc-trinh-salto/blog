@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Context;
+use function Illuminate\Events\queueable;
 use Illuminate\Support\Facades;
 use App\Http\ViewComposers\BookComposer;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -94,9 +95,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         //Event manually registering
-        Event::listen(function(LogoutEvent $event){
+        Event::listen(queueable(function(LogoutEvent $event){
             Log::info("Listener dispatch logout of user: ".$event->user->fullname);
-        });
+        }));
 
         //Event manually registering subscriber
         // Event::subscribe(UserEventSubscriber::class);

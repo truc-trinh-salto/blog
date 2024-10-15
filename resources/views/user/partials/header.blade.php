@@ -81,7 +81,7 @@
 						document.getElementById('form_lang').submit();
 						}
 					</script>
-						<form method='get' action='' id='form_lang'>
+						<form method='get' action='/localize' id='form_lang'>
                             <input type='hidden' name='order_id' value=>
                             <input type='hidden' name='book_id' value=>
                             <input type='hidden' name='username' value=>
@@ -90,7 +90,7 @@
                                 English
                             </option>
 
-							<option value='vi'>
+							<option value='vi' @selected(session('lang','en') == 'vi')>
                                 Vietnamese
                             </option>
 							</select>

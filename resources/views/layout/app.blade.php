@@ -7,6 +7,8 @@
         session()->put('cart', $cart);
         session()->put('qty_array',$qtyCart);
     }
+
+    App::setLocale(session()->get('lang','en'));
 @endphp
 
 <!DOCTYPE html>

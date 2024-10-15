@@ -11,6 +11,7 @@ use App\Http\Middleware\EnsureBookHasEdit;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Console\Commands\SendEmails;
+use App\Http\Middleware\ChangeLocale;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->name('support.')
                 ->group(base_path('routes\support.php'));
 
-            Route::middleware('api')
+            Route::middleware('web')
                 ->prefix('file')
                 ->name('file.')
                 ->group(base_path('routes\file.php'));
@@ -38,6 +39,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'subscribed' => EnsurePostIdValid::class,
             'bookEdit' => EnsureBookHasEdit::class
+        ]);
+
+        $middleware->append([
+            ChangeLocale::class,
         ]);
 
 

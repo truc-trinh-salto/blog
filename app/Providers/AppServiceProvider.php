@@ -102,6 +102,8 @@ class AppServiceProvider extends ServiceProvider
         //Event manually registering subscriber
         // Event::subscribe(UserEventSubscriber::class);
 
+        
+
 
 
     }

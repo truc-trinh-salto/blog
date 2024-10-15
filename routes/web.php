@@ -26,19 +26,40 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Concurrency;
-use App\Http\Middleware\EnsureValidUsername;
+use App\Http\Middleware\ChangeLocale;
 use App\Http\Middleware\EnsureValidCategoryName;
 use App\Http\Middleware\AddContext;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\App;
  
 
 
 //Route default
 Route::get('/welcome',[HomeController::class,'welcome']);
 
+Route::get('/localize',function(){
+    $lang = request()->get('lang');
+
+    app()->setLocale($lang);
+
+    session()->put('lang',$lang);
+
+    return redirect()->back();
+});
+
+Route::get('/getLocale',function(){
+    // App::setLocale('vi');
+    // $locale = App::currentLocale();
+
+    // echo trans_choice('message.apples', 21);
+ 
+    echo trans_choice('message.minutes_ago', 5, ['value' => 5]);
+    return ;
+});
 
 Route::get('/home',[HomeController::class,'home']);
 
@@ -260,6 +281,12 @@ Route::get('/context', function(){
 
 
 })->middleware(AddContext::class);
+
+Route::get('url',function(){
+    if(Auth::check()){
+        return redirect('/home');
+    }
+});
 
 
 

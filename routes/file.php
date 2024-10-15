@@ -1,8 +1,16 @@
 <?php 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Number;
+use Illuminate\Support\Benchmark;
+use Illuminate\Support\Facades\Http;
+use App\Models\User;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('/hello',function(){
@@ -106,6 +114,46 @@ Route::get('delete',function(){
 Route::get('allFiles',function(){
     $files = Storage::allFiles();
     return $files;
+});
+
+
+Route::get('arr',function(){
+    $data = [
+        'products' => [
+            ['name' => 'Desk 1', 'price' => 100],
+            ['name' => 'Desk 2'],
+        ],
+    ];
+     
+    data_fill($data, 'products.name.price', 200);
+
+    return $data;
+
+});
+
+Route::get('num',function(){
+    $result = Number::pairs(37, 7);
+
+    return $result;
+
+});
+
+Route::get('path',function(){
+    return response('Hello');
+});
+
+Route::get('url',function(){
+    [$count, $duration] = Benchmark::value(fn () => User::count());
+
+    return [$count, $duration];
+
+});
+
+Route::get('httpClient',function(){
+    $response = Http::get('http://localhost:8080/file/path');
+    dd($response);
+    return 'Hello';
+
 });
 
 

@@ -9,6 +9,7 @@ use App\Events\LogoutEvent;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Mail\Events\MessageSending;
 
 class UserEventSubscriber
 {
@@ -34,6 +35,10 @@ class UserEventSubscriber
         
     }
 
+    public function handleUserSendEmail(MessageSending $event){
+        Log::info("Listener Email Sending dispatch of user: ");
+    }
+
     public function subscribe(Dispatcher $events): void
     {
         
@@ -45,6 +50,11 @@ class UserEventSubscriber
         $events->listen(
             LogoutEvent::class,
             [UserEventSubscriber::class, 'handleUserLogout']
+        );
+
+        $events->listen(
+            MessageSending::class,
+            [UserEventSubscriber::class, 'handleUserSendEmail']
         );
 
         // return [

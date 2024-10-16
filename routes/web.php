@@ -4,6 +4,7 @@ use App\Http\Controllers\BookCommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\HomeController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Mail\OrderShipped;
 use App\Http\Controllers\ManagementController;
 use App\Events\OrderShipmentStatusUpdated;
 use Illuminate\Http\Request;
@@ -85,6 +87,29 @@ Route::get('/user',function(Request $request){
 Route::get('test',function (){
     return view('test');
 });
+
+//Mail render
+Route::get('mail/render',function(){
+    $order = Order::find(39);
+    return (new OrderShipped($order))->render();
+});
+
+//Mail Locale
+Route::get('mail/locale',function(){
+    $order = Order::find(39);
+    Mail::to(Auth::user())
+            ->locale('vi')
+            ->send(new OrderShipped($order));    
+});
+
+
+//Mail sending
+Route::get('mail',function(){
+    $order = Order::find(39);
+    Mail::to(Auth::user())
+            ->later(now()->addSeconds(10),new OrderShipped($order));
+});
+
 
 //Route optional parameters
 // Route::get('/user/{name?}',function(?string $name = 'Alice'){

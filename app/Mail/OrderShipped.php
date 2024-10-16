@@ -55,7 +55,7 @@ class OrderShipped extends Mailable
     public function content(): Content
     {
         return new Content(
-            view :'emails.orders.ship',
+            markdown: 'mail.orders.shipped',
             with :[
                     'user_id' => $this->order->user_id,
                   ]
@@ -71,6 +71,7 @@ class OrderShipped extends Mailable
     {
         return [
             Attachment::fromStorage('test.pdf'),
+            $this->order,
         ];
     }
 }

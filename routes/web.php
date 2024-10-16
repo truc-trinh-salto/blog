@@ -32,11 +32,13 @@ use App\Http\Middleware\ChangeLocale;
 use App\Http\Middleware\EnsureValidCategoryName;
 use App\Http\Middleware\AddContext;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\App;
+use App\Notifications\OrderPaid;
  
 
 
@@ -99,7 +101,8 @@ Route::get('mail/locale',function(){
     $order = Order::find(39);
     Mail::to(Auth::user())
             ->locale('vi')
-            ->send(new OrderShipped($order));    
+            ->send(new OrderShipped($order));
+    
 });
 
 
@@ -109,6 +112,35 @@ Route::get('mail',function(){
     Mail::to(Auth::user())
             ->later(now()->addSeconds(10),new OrderShipped($order));
 });
+
+
+Route::get('notify/preview',function(){
+    $order = Order::find(39);
+    $user = User::find(Auth::user()->id);
+
+    echo $user->notifications;
+
+
+    return (new OrderPaid($order))
+            ->toMail($user);
+});
+
+
+//Notification sending
+Route::get('notify',function(){
+    $order = Order::find(39);
+    $user = User::find(Auth::user()->id);
+
+    Notification::locale('vi')->send($user, new OrderPaid($order));
+
+    // $user->notify(new OrderPaid($order));
+
+    //Notification route
+    // Notification::routes([
+    //     'mail' => ['trungtruc201563@gmail.com' => 'Trinh Truc'],
+    // ])->notify(new OrderPaid($order));
+});
+
 
 
 //Route optional parameters

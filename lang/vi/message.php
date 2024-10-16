@@ -182,6 +182,9 @@ return [
     "_TRANSPORT"=>"Vận chuyển",
     "_FORGOTPASSWORD"=>"Bạn đã quên mật khẩu",
     "_FORGOT"=>"Quên mật khẩu",
+
+    "_NOTIFYPAID" => "Thông báo đơn hàng đã được thanh toán"
+
     
     
     

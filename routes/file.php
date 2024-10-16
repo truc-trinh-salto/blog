@@ -150,10 +150,8 @@ Route::get('url',function(){
 });
 
 Route::get('httpClient',function(){
-    $response = Http::get('http://localhost:8080/file/path');
-    dd($response);
-    return 'Hello';
-
+    $response = Http::get('https://dummyjson.com/products/1');
+    return $response->json();
 });
 
 

@@ -195,6 +195,8 @@ return [
     "_TRANSPORT" =>"Transport",
     "_FORGOTPASSWORD" =>"Have you forgot your password",
     "_FORGOT" =>"Forgot password",
+
+    "_NOTIFYPAID" => "Notification of order paid"
     
     
     

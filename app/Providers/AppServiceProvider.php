@@ -17,6 +17,7 @@ use Illuminate\View\View;
 use Illuminate\Log\Context\Repository;
 use App\View\Components\Alert;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use App\Events\LogoutEvent;
 use App\Listeners\UserEventSubscriber;
 
@@ -102,9 +103,18 @@ class AppServiceProvider extends ServiceProvider
         //Event manually registering subscriber
         // Event::subscribe(UserEventSubscriber::class);
 
+        //Http client opptions
+        Http::globalOptions([
+            'allow_redirects' => true,
+        ]);
+
+
+        //Http client macro
+        Http::macro('github', function () {
+            return Http::withHeaders([
+                'X-First' => 'foo',
+            ])->baseUrl('https://github.com');
+        });
         
-
-
-
     }
 }

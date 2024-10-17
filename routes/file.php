@@ -9,8 +9,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Number;
 use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Http;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use App\Models\User;
 use App\Http\Controllers\HomeController;
+use Illuminate\Http\Client\Pool;
 
 
 Route::get('/hello',function(){
@@ -150,7 +153,24 @@ Route::get('url',function(){
 });
 
 Route::get('httpClient',function(){
-    $response = Http::get('https://dummyjson.com/products/1');
+    // $responses = Http::pool(fn (Pool $pool) => [
+    //     $pool->as('first')->get('https://dummyjson.com/products/1'),
+    //     $pool->as('second')->get('https://dummyjson.com/products/2'),
+    //     $pool->as('third')->get('https://dummyjson.com/products/3'),
+    // ]);
+
+    // return  $responses['first']->json();
+
+    // $photo = Storage::get('filename.jpg');
+
+    $response = Http::attach([
+        'X-First' => 'foo',
+        'X-Second' => 'bar'
+    ])->post('https://dummyjson.comfsdfsdfsdfsd/1', [
+        'title' => 'BMW Pencil',
+        'role' => 'Network Administrator',
+    ]);
+    // $response = Http::github()->post('/');
     return $response->json();
 });
 

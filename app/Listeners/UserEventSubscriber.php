@@ -10,6 +10,9 @@ use GuzzleHttp\Psr7\Message;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Http\Client\Events\RequestSending;
+use Illuminate\Http\Client\Events\ConnectionFailed;
+
 
 class UserEventSubscriber
 {
@@ -37,6 +40,16 @@ class UserEventSubscriber
 
     public function handleUserSendEmail(MessageSending $event){
         Log::info("Listener Email Sending dispatch of user: ");
+    }
+
+    public function handleRequestSending(RequestSending $event){
+        Log::info("Listener Request Sending dispatch of user: ");
+
+    }
+
+    public function handleConnectionFailed(ConnectionFailed $event){
+        Log::info("Listener Connection Failed dispatch of user: ");
+
     }
 
     public function subscribe(Dispatcher $events): void

@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+
 use App\Mail\OrderShipped;
 use App\Http\Controllers\ManagementController;
 use App\Events\OrderShipmentStatusUpdated;
@@ -343,6 +344,13 @@ Route::get('url',function(){
     if(Auth::check()){
         return redirect('/home');
     }
+});
+
+Route::get('concurrency',function(){
+    [$userCount, $orderCount] = Concurrency::run([
+        fn () => DB::table('users')->count(),
+        fn () => DB::table('order_item')->count(),
+    ]);
 });
 
 

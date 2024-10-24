@@ -25,7 +25,7 @@ class TestArtisan extends Command
      */
     public function handle()
     {
-        $id = $this->arguments();
+        $id = $this->argument('id');
         $this->info("Test Artisan ".$id);
     }
 }

@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Process\Pipe;
+use Illuminate\Process\Pool;
+use App\Models\Book;
+use App\Jobs\ProcessPodcast;
 
 
 Route::get('/hello',function(){
@@ -40,6 +45,55 @@ Route::get('/sendMail/{id}', function (string $id) {
 
     return $exitCode;
     // ...
+});
+
+Route::get('/processes',function(){
+    // $result = Process::pipe(function (Pipe $pipe) {
+    //     $pipe->path(__DIR__.'/..')->command('type example.txt');
+    //     $pipe->path(__DIR__.'/..')->command('type example1.txt');
+    // }, function (string $type, string $output) {
+    //     echo $output.' ';
+    // });
+
+    // $result = Process::path(__DIR__.'/..')->run('type example.txt');
+
+    // $result = Process::path(__DIR__.'/..')->input('Hello World')->run('type');
+
+    // $process = Process::timeout(120)->path(__DIR__.'/..')->start('type example.txt',function(string $type, string $output){
+    //     echo $output.' ';
+    // });
+ 
+    // while ($process->running()) {
+        
+    //     echo $process->latestOutput();
+    // }
+
+    // // $result = $process->wait();
+
+    // $signal = $process->signal(SIGUSR2);
+
+    // echo $signal;
+
+    $pool = Process::pool( function(Pool $pool){
+        $pool->as('first')->path(__DIR__.'/..')->command('type example.txt');
+        $pool->as('second')->path(__DIR__.'/..')->command('type example1.txt');
+        $pool->as('third')->path(__DIR__.'/..')->command('type example2.txt');
+    })->start(function(string $type, string $output, string $key){
+        // echo $type.'</br>';
+    });
+
+
+    // $results = $pool->wait();
+
+    $iDs = $pool->running()->each->id();
+
+    return $iDs;
+});
+
+Route::get('queue',function(){
+    $book = Book::find(1);
+    ProcessPodcast::dispatch($book)->withoutDelay();
+
 });
 
 

@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use App\Models\Book;
-use App\Models\Comment;
 
-
-class BookCommentController extends Controller
+class TransactionController extends Controller
 {
+    //Controller Resources Model
+
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index(Book $book)
+    public function index()
     {
-        return Comment::all()->where('book_id',$book->book_id);
+        return Transaction::all();
     }
 
     /**
@@ -22,13 +24,13 @@ class BookCommentController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         //
     }
@@ -36,23 +38,23 @@ class BookCommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book, Comment $comment)
+    public function show(Transaction $transaction)
     {
-        return $comment;
+        return $transaction;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Comment $comment)
+    public function edit(Transaction $transaction)
     {
-        return $comment;
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Transaction $transaction)
     {
         //
     }
@@ -60,7 +62,7 @@ class BookCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Transaction $transaction)
     {
         //
     }

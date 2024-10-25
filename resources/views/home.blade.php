@@ -11,11 +11,11 @@
 <body>
     <h1>Book : {{$book->title}}</h1>
     <h1>Category : {{$book->category->name_category}}</h1>
-    @foreach ($books as $book)
+    <!-- @foreach ($books as $book)
         <p @class([
             'text-success'
                         ])
             >This is book price {{ $book->category->name_category }}</p>
-    @endforeach
+    @endforeach -->
 </body>
 </html>

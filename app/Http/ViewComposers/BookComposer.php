@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
  
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\View\View;
  
 class BookComposer
@@ -19,6 +20,13 @@ class BookComposer
      */
     public function compose(View $view): void
     {
-        $view->with('books', $this->books::all());
+        $categories = Category::all();
+
+        $carts = session('cart',[]);
+        $book_carts = Book::find($carts);
+        //View Composer
+        $view->with('books', $this->books::all())
+            ->with('categories', $categories)
+            ->with('book_cart', $book_carts);
     }
 }

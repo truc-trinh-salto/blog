@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
-use App\Models\Comment;
 
-
-class BookCommentController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Book $book)
+    public function index()
     {
-        return Comment::all()->where('book_id',$book->book_id);
+        //
     }
 
     /**
@@ -22,13 +19,13 @@ class BookCommentController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         //
     }
@@ -36,17 +33,17 @@ class BookCommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book, Comment $comment)
+    public function show(string $id)
     {
-        return $comment;
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Comment $comment)
+    public function edit(string $id)
     {
-        return $comment;
+        //
     }
 
     /**

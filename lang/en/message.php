@@ -11,6 +11,8 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'apples' => '{0} There are none|[1,19] There are some|[20,*] There are many',
+    'minutes_ago' => '{1} :value minute ago|[2,*] :value minutes ago',
     "_REGISTER" => "Register",
     "_NAME" => "Full name",
     "_USERNAME" => "Username",
@@ -139,7 +141,6 @@ return [
     "_NOTACTIVE" =>"Not active",
     "_TRANSACTION" =>"Transactions",
     "_ROLE" =>"Role",
-    
     
     "_TOTALPRICEBOOK" =>"Total price of book",
     "_ORDERID" =>"Order ID",

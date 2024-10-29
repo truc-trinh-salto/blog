@@ -41,12 +41,18 @@ class HomeController extends Controller
             return view('auth.login');
         }
 
-        //Cache retrieve item
-        Cache::lock('email', 10)->get(function () {
-            sleep(5);
-            $email = Cache::get('email');
-            Log::info("Cache lock of email : ".$email);
-        });
+
+        //Cache existence
+        if(Cache::has('email')){
+            //Cache locking item
+            Cache::lock('email', 10)->get(function () {
+                sleep(5);
+
+                //Cache retrieve item
+                $email = Cache::get('email');
+                Log::info("Cache lock of email : ".$email);
+            });
+        }
 
         //View nested directories
         return view('user.home');

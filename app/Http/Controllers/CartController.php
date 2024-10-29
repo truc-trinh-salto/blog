@@ -9,8 +9,19 @@ use Illuminate\Support\Facades\Cache;
 class CartController extends Controller
 {
     public function addToCart(Request $request){
+        
         $bookId = $request->input('book_id');
         $quantity = 1;
+
+        //Cache check existence
+        if(!Cache::has($bookId)){
+            //Cache add item
+            Cache::add($bookId,0);
+        } else {
+
+            //Cache incrementing
+            Cache::increment($bookId);
+        }
 
         //Session retrieve value and default value
         $cart = session('cart',[]);
@@ -47,6 +58,10 @@ class CartController extends Controller
             
             $cart = array_values($cart);
             $qtyCart = array_values($qtyCart);
+
+
+            //Cache delete item
+            Cache::forget($bookId);
         }
 
         //Session store value
@@ -64,6 +79,8 @@ class CartController extends Controller
 
         //Cache retrieve item when cach lock
         $email = Cache::get('email');
+
+        echo $email;
 
         $cartSession = request()->session()->get('cart'); 
 

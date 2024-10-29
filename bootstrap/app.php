@@ -31,6 +31,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('file')
                 ->name('file.')
                 ->group(base_path('routes\file.php'));
+
+            Route::middleware('web')
+                ->prefix('cache')
+                ->name('cache.')
+                ->group(base_path('routes\cache.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

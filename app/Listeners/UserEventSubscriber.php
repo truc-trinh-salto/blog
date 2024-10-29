@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Http\Client\Events\RequestSending;
 use Illuminate\Http\Client\Events\ConnectionFailed;
+use Illuminate\Cache\Events\CacheHit;
 
 
 class UserEventSubscriber
@@ -52,6 +53,11 @@ class UserEventSubscriber
 
     }
 
+    public function handleCacheHit(CacheHit $event){
+        Log::info("Cache hit dispatch of user: ");
+
+    }
+
     public function subscribe(Dispatcher $events): void
     {
         
@@ -68,6 +74,13 @@ class UserEventSubscriber
         $events->listen(
             MessageSending::class,
             [UserEventSubscriber::class, 'handleUserSendEmail']
+        );
+
+
+        //Cache events when get key in Cache
+        $events->listen(
+            CacheHit::class,
+            [UserEventSubscriber::class, 'handleCacheHit']
         );
 
         // return [

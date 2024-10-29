@@ -44,7 +44,7 @@ class UserController extends Controller
 
             //Cache add item
             Cache::add('email',$user->email);
-
+            
 
             Log::info('User authenticated.', ['auth_id' => Auth::id()]);
 

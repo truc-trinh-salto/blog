@@ -658,11 +658,11 @@ Route::get('pipeThrough',function(){
 //Collection pluck
 Route::get('pluck',function(){
     $original = collect([
-        ['product_id' => 'prod-100', 'name' => 'Desk'],
-        ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ['product_id' => 'prod-100', 'name' => 'Desk', 'price' => 250],
+        ['product_id' => 'prod-200', 'name' => 'Chair','price' => 200],
     ]);
 
-
+    //First pram is value of given key, 2nd param is the keyed for the value return
     $pluck = $original->pluck('name','product_id');
 
     return $pluck;
@@ -996,6 +996,3 @@ Route::get('remember',function(){
 
     return $books;
 });
-
-
-

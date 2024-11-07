@@ -14,6 +14,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CacheController;
+
+
+use Illuminate\Contracts\Cache\Repository as CacheContract;
 
 use App\Mail\OrderShipped;
 use App\Http\Controllers\ManagementController;
@@ -45,6 +49,9 @@ use App\Notifications\OrderPaid;
 
 //Route default
 Route::get('/welcome',[HomeController::class,'welcome']);
+
+Route::get('/homeWithAll',[HomeController::class,'getAll']);
+
 
 Route::get('/localize',function(){
     $lang = request()->get('lang');
@@ -334,9 +341,10 @@ Route::get('/collection', function(){
 
 Route::get('/context', function(){
     $context = Context::all();
-
+    
     var_dump($context);
 
+    return $context;
 
 })->middleware(AddContext::class);
 
@@ -352,6 +360,9 @@ Route::get('concurrency',function(){
         fn () => DB::table('order_item')->count(),
     ]);
 });
+
+Route::get('/contract',[CacheController::class,'add']);
+
 
 
 

@@ -36,6 +36,10 @@ class AddContext
             fn ($context) => $context->add('permissions', Auth::user()->id),
             fn ($context) => $context->add('permissions', []),
         );
+
+        // $context = Context::get('trace_id');
+
+        // var_dump($context);
         return $next($request);
     }
 }

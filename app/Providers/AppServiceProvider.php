@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use App\Events\LogoutEvent;
 use App\Listeners\UserEventSubscriber;
+use Illuminate\Support\Facades\Config;
+
+use Illuminate\Contracts\Queue\Queue;
 
 
 use App\Models\User;
@@ -114,6 +117,15 @@ class AppServiceProvider extends ServiceProvider
             return Http::withHeaders([
                 'X-First' => 'foo',
             ])->baseUrl('https://github.com');
+        });
+
+
+        Context::dehydrating(function (Repository $context) {
+            $context->add('lang', Config::get('app.locale'));
+        });
+
+        Context::hydrated(function (Repository $context) {
+            var_dump($context->get('lang'));
         });
         
     }

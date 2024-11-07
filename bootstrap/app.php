@@ -41,6 +41,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('collect')
                 ->name('collect.')
                 ->group(base_path('routes\collection.php'));
+            
+            Route::middleware('web')
+                ->prefix('helper')
+                ->name('helper.')
+                ->group(base_path('routes\helper.php'));
+
+            
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

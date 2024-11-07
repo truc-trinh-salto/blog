@@ -30,7 +30,7 @@ Route::Get('/download',function(){
 
 //File url
 Route::Get('/url',function(){
-    $url= Storage::url('test.pdf');
+    $url= Storage::url('text.txt');
 
     return $url;
 }); 
@@ -103,8 +103,8 @@ Route::get('putFile',function(){
 
 //File visibility
 Route::get('visible',function(){
-    Storage::setVisibility('filename.jpg','private');
-    
+    Storage::setVisibility('text.txt','private');
+    return Storage::getVisibility('text.txt');          
 });
 
 //File delete
@@ -118,6 +118,31 @@ Route::get('allFiles',function(){
     $files = Storage::allFiles();
     return $files;
 });
+
+//File directories
+Route::get('directories',function(){
+    $directories = Storage::allDirectories('assets');
+
+    return $directories;
+});
+
+//File directories
+Route::get('createDir',function(){
+    $directories = Storage::makeDirectory('create');
+
+    return $directories;
+});
+
+//File directories
+Route::get('deleteDir',function(){
+    $directories = Storage::deleteDirectory('create');
+
+    return $directories;
+});
+
+
+
+
 
 
 Route::get('arr',function(){
@@ -145,7 +170,7 @@ Route::get('path',function(){
     return response('Hello');
 });
 
-Route::get('url',function(){
+Route::get('benchmark',function(){
     [$count, $duration] = Benchmark::value(fn () => User::count());
 
     return [$count, $duration];
@@ -173,6 +198,7 @@ Route::get('httpClient',function(){
     // $response = Http::github()->post('/');
     return $response->json();
 });
+
 
 
 

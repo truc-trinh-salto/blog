@@ -8,6 +8,8 @@ use Illuminate\Process\Pipe;
 use Illuminate\Process\Pool;
 use App\Models\Book;
 use App\Jobs\ProcessPodcast;
+use Illuminate\Support\Facades\Context;
+
 
 
 Route::get('/hello',function(){
@@ -92,6 +94,7 @@ Route::get('/processes',function(){
 
 Route::get('queue',function(){
     $book = Book::find(1);
+    
     ProcessPodcast::dispatch($book)->withoutDelay();
 
 });

@@ -5,6 +5,10 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\DB;
 
@@ -19,18 +23,35 @@ class HomeController extends Controller
         $name = Route::currentRouteName(); // string
         $action = Route::currentRouteAction(); // String
 
-        echo $name;
-        echo $action;
+        // echo $name;
+        // echo $action;
+        if(Auth::check()){
+            return redirect('/home');
+        }
         
-        return view('auth.login');
+        return View::first(['auth.login', 'welcome']);
     }
 
     public function home(){
-        // var_dump($categories);
-        $categories = Category::where('category_id',1)->cursorPaginate(1);
+
+        // var_dump($categories); 
         
-        return view('user.home',['categories' => $categories]);
+        //View exists
+        if(!view()->exists('user.home')){
+            return view('auth.login');
+        }
+
+        //Cache retrieve item
+        Cache::lock('email', 10)->get(function () {
+            sleep(5);
+            $email = Cache::get('email');
+            Log::info("Cache lock of email : ".$email);
+        });
+
+        //View nested directories
+        return view('user.home');
     }
+
     public function getAll(Request $request)
     {
         $posts = Post::all();
@@ -38,7 +59,14 @@ class HomeController extends Controller
         foreach($posts as $post){
             echo $post->title;
         }
-        return response('Hello World')->cookie('name','value',$minutes=1);
+        //Response attaching headers
+        return response('Hello World')
+                        ->cookie('name','value',$minutes=1)
+                        ->withHeaders([
+                            'Content-Type' => 'text/plain',
+                            'X-Header-One' => 'Header Value',
+                            'X-Header-Two' => 'Header Value',
+                        ]);;
     }
 
     public function delete($postId){
